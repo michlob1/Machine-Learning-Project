@@ -7,9 +7,9 @@ import pandas as pd #import db and create matrix of features
 
 
 # Importing the dataset
-dataset = pd.read_csv('Social_Network_Ads.csv')
-X = dataset.iloc[:, :-1].values #matrix of features (X) 
-y = dataset.iloc[:, -1].values #dependant variable vector (y)
+#dataset = pd.read_csv('Social_Network_Ads.csv')
+#X = dataset.iloc[:, :-1].values #matrix of features (X) 
+#y = dataset.iloc[:, -1].values #dependant variable vector (y)
 
 
 # Splitting the dataset into the Training set and Test set
