@@ -50,11 +50,37 @@ image_validation=validation_data_gen.flow_from_directory(
 
 ##CREATING CNN NETWORK
 cnn= Sequential() ##para indicar que la red es secuencial
-cnn.add(Convolution2d(filterConv1, size_filter1, padding='same', input_shape= (height, lenght), activation = 'relu'))
+cnn.add(Convolution2d(filterConv1, 
+                      size_filter1,
+                      padding='same', 
+                      input_shape= (height, lenght, 3), 
+                      activation = 'relu'))
 cnn.add(MaxPooling2D(pool_size=size_pool))
-cnn.add(Convolution2D(filterConv2, size_filter2, padding='same',activation='relu'))
+cnn.add(Convolution2D(filterConv2, 
+                      size_filter2,
+                      padding='same',
+                      activation='relu'))
 cnn.add(MaxPooling2D(pool_size=size_pool))
 cnn.add(Flatten))
 cnn.add(Dense(256, activation='relu')) ##Dense, conecta las neuronas
 cnn.add(Dropout(0.5)) ##orden para solo activar 50% de las 256 neuronas, asi aprende caminos alternos para clasificar los datos (mejora la adaptacion a nueva informacion)
 cnn.add(Dense(classes, activation='softMax'))
+cnn.compile(loss='categorical_crossentropy', 
+            optimizer=optimizers.Adam(lr=lr), 
+            metrics=['accuracy'])##parametros para optimizar algoritmo. funcion de perdida (que tan bien o mal va el algoritmo) lr es learning rate definido arriba
+##accuracy indica que tan bien va aprendiendo la red neuronal.
+cnn.fit(image_training, 
+        steps_per_epoch= steps, 
+        epochs= epochs, 
+        validation_data= image_validation, 
+        validation_steps=validations_steps)##cuantos pasos de validacion se corren despues de una epoca
+
+dir='./model/' ##nombre de la carpeta
+if not os.path.exists(dir):
+   os.mkdir(dir) ##si no existe una carpeta llamada 'model' entonces crearla
+cnn.save('./model/model.h5')##grabar el modelo en este directorio
+cnn.save_weights('./modelo/weights.h5')##en la anterior se graba estructura y en esta se guardan pesos de c/u de las capas previamente entrenadas
+      
+
+
+   
